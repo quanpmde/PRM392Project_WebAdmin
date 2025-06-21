@@ -4,7 +4,7 @@
  */
 package DAO;
 
-import model.Order;
+import model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,39 +12,12 @@ import java.util.List;
 
 public class OrderDAO {
 
-    // Thêm đơn hàng mới
-    public boolean insertOrder(Order order) {
-        String sql = "INSERT INTO `order` (user_id, order_date, total_amount) VALUES (?, ?, ?)";
-
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            stmt.setInt(1, order.getUserId());
-            stmt.setTimestamp(2, Timestamp.valueOf(order.getOrderDate()));
-            stmt.setDouble(3, order.getTotalAmount());
-
-            int affectedRows = stmt.executeUpdate();
-
-            // Lấy ID tự tăng (generated key)
-            if (affectedRows > 0) {
-                ResultSet generatedKeys = stmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    order.setId(generatedKeys.getInt(1));
-                }
-                return true;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    // Lấy đơn hàng theo ID
+    // Lấy đơn hàng theo ID kèm thông tin user
     public Order getOrderById(int id) {
         Order order = null;
-        String sql = "SELECT * FROM `order` WHERE id = ?";
+        String sql = "SELECT o.*, u.username, u.fullname, u.email " +
+                     "FROM `order` o JOIN user u ON o.user_id = u.id " +
+                     "WHERE o.id = ?";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -55,9 +28,16 @@ public class OrderDAO {
             if (rs.next()) {
                 order = new Order();
                 order.setId(rs.getInt("id"));
-                order.setUserId(rs.getInt("user_id"));
                 order.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
                 order.setTotalAmount(rs.getDouble("total_amount"));
+                order.setPaymentMethod(rs.getString("payment_method"));
+
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                user.setUsername(rs.getString("username"));
+                user.setFullname(rs.getString("fullname"));
+                user.setEmail(rs.getString("email"));
+                order.setUser(user);
             }
 
         } catch (Exception e) {
@@ -70,18 +50,27 @@ public class OrderDAO {
     // Lấy tất cả đơn hàng
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT * FROM `order` ORDER BY order_date DESC";
+        String sql = "SELECT o.*, u.username, u.fullname, u.email "
+                + "FROM `order` o JOIN user u ON o.user_id = u.id "
+                + "ORDER BY o.order_date DESC";
 
-        try (Connection conn = DBUtil.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
-                order.setUserId(rs.getInt("user_id"));
                 order.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
                 order.setTotalAmount(rs.getDouble("total_amount"));
+                order.setPaymentMethod(rs.getString("payment_method"));
+
+                // Lấy thông tin user
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                user.setUsername(rs.getString("username"));
+                user.setFullname(rs.getString("fullname"));
+                user.setEmail(rs.getString("email"));
+                order.setUser(user);
+                
                 orders.add(order);
             }
 
@@ -97,8 +86,7 @@ public class OrderDAO {
         List<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM `order` WHERE user_id = ? ORDER BY order_date DESC";
 
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBUtil.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
@@ -106,9 +94,10 @@ public class OrderDAO {
             while (rs.next()) {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
-                order.setUserId(rs.getInt("user_id"));
+        
                 order.setOrderDate(rs.getTimestamp("order_date").toLocalDateTime());
                 order.setTotalAmount(rs.getDouble("total_amount"));
+                order.setPaymentMethod(rs.getString("payment_method"));
                 orders.add(order);
             }
 
@@ -119,20 +108,4 @@ public class OrderDAO {
         return orders;
     }
 
-    // Xoá đơn hàng
-    public boolean deleteOrder(int id) {
-        String sql = "DELETE FROM `order` WHERE id = ?";
-
-        try (Connection conn = DBUtil.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
 }

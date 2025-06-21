@@ -1,31 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDateTime;
 
-/**
- *
- * @author Admin
- */
 public class Order {
+
     private int id;
-    private int userId;
+    private User user; // 🆕 Thêm trường này
     private LocalDateTime orderDate;
     private double totalAmount;
-
+    private String paymentMethod; // 🆕
+    
     public Order() {
     }
-  
-    public Order(int id, int userId, LocalDateTime orderDate, double totalAmount) {
+
+    public Order(int id, User user, LocalDateTime orderDate, double totalAmount, String paymentMethod) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
+        this.paymentMethod = paymentMethod;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -34,12 +30,12 @@ public class Order {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getOrderDate() {
@@ -57,6 +53,12 @@ public class Order {
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
-    
-    
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 }

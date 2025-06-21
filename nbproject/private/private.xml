@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/src/java/db/DBUtil.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/src/java/controller/PayOSServlet.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/src/java/controller/CartServlet.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/src/java/controller/OrderServlet.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/src/java/controller/LoginServlet.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/ProductAPI/src/java/controller/ProductServlet.java</file>
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/ProductAPI/src/java/DAO/UserDAO.java</file>
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/ProductAPI/src/java/controller/LoginServlet.java</file>
         </group>
     </open-files>
 </project-private>
