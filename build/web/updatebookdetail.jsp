@@ -113,7 +113,7 @@
                             <input type="file" name="image_file" accept=".jpg,.jpeg,.png"/><br><br>
 
                             <button type="submit" class="btn btn-success">Cập nhật</button>
-                            <a href="listallproducts" class="btn btn-secondary">Hủy</a>
+                            <a href="list-products" class="btn btn-secondary">Hủy</a>
                         </form>
                     </div>
 
