@@ -99,8 +99,8 @@
 
                             <label>Trạng thái:</label><br>
                             <select name="status" required>
-                                <option value="1" <%= (product.getStatus() == 1) ? "selected" : "" %>>Khả dụng</option>
-                                <option value="2" <%= (product.getStatus() == 2) ? "selected" : "" %>>Không thể bán</option>
+                                <option value="0" <%= (product.getStatus() == 0) ? "selected" : "" %>>Khả dụng</option>
+                                <option value="1" <%= (product.getStatus() == 1) ? "selected" : "" %>>Không thể bán</option>
                             </select><br><br>
 
                             <label>Mô tả:</label><br>
